@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"time_delta",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"time_delta",
+  "parent":{
+    "name":"Scripts",
+    "path":"folders/Scripts.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

@@ -1,0 +1,1 @@
+global.__time_delta = 0;

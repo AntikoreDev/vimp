@@ -1,0 +1,1 @@
+global.__time_delta = delta_time / 1_000_000;
