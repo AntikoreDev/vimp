@@ -34,6 +34,7 @@
     {"id":{"name":"assign_ship","path":"scripts/assign_ship/assign_ship.yy",},},
     {"id":{"name":"date_stuff","path":"scripts/date_stuff/date_stuff.yy",},},
     {"id":{"name":"enums","path":"scripts/enums/enums.yy",},},
+    {"id":{"name":"secs_to_string","path":"scripts/secs_to_string/secs_to_string.yy",},},
     {"id":{"name":"time_delta","path":"scripts/time_delta/time_delta.yy",},},
     {"id":{"name":"spr_pixel","path":"sprites/spr_pixel/spr_pixel.yy",},},
     {"id":{"name":"spr_scanlines","path":"sprites/spr_scanlines/spr_scanlines.yy",},},
