@@ -187,7 +187,7 @@ pause = function(_val = !is_paused){
 run_list_move = function(){
 	if (array_length(track_list) <= 0) return;
 	
-	var _hovering = point_in_rectangle(mouse_x, mouse_y, room_width - 128, 36, room_width, room_height - 32);
+	var _hovering = point_in_rectangle(mouse_x, mouse_y, room_width - 144, 36, room_width, room_height - 32);
 	if (!_hovering) return;
 	
 	var _mouse = mouse_wheel_down() - mouse_wheel_up();
