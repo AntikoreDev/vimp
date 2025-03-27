@@ -12,5 +12,5 @@ get_image_index = function(){
 }
 
 on_action = function(){
-	controller.is_paused = !controller.is_paused;	
+	controller.pause();
 }

@@ -1,7 +1,7 @@
 function secs_to_string(_secs){
 	var _h = 0;
 	var _m = 0;
-	var _s = _secs;
+	var _s = floor(_secs);
 	
 	while (_s > 3600){
 		_h++;

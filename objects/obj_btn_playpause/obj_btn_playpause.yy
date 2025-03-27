@@ -32,7 +32,13 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":null,
-  "spriteMaskId":null,
+  "spriteId":{
+    "name":"spr_playpause",
+    "path":"sprites/spr_playpause/spr_playpause.yy",
+  },
+  "spriteMaskId":{
+    "name":"spr_playpause",
+    "path":"sprites/spr_playpause/spr_playpause.yy",
+  },
   "visible":true,
 }

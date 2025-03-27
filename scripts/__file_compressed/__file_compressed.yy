@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"__file_compressed",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"__file_compressed",
+  "parent":{
+    "name":"FileCompressed",
+    "path":"folders/Extensions/FileCompressed.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

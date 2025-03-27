@@ -1,8 +1,12 @@
 draw_self();
 
 if (is_hovering){
-	draw_set_halign(fa_center);
-	draw_set_valign(fa_bottom);
+	var _top_button = y < 24;
+	draw_set_halign(_top_button ? fa_right : fa_center);
+	draw_set_valign(_top_button ? fa_top : fa_bottom);
 	draw_set_font(fnt_main);
-	draw_text(x, y - 12, label_text);
+	
+	var _xx = (_top_button ? room_width - 4 : x);
+	var _yy = (_top_button ? 4 : y - 6);
+	draw_text(_xx, _yy, label_text);
 }
