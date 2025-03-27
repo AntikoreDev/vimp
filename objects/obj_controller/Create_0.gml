@@ -15,6 +15,9 @@ last_back = 0;
 playback = undefined;
 hovering_up_buttons = false;
 total_duration = 0;
+view_init = 0;
+view_max = 24;
+watch_track = false;
 
 volume = 0.8;
 ship = -1;
@@ -41,6 +44,7 @@ clear_list = function(){
 	original_list = [];
 	track_list = [];
 	total_duration = 0;
+	view_init = 0;
 }
 
 add_folder = function(_dir){
@@ -84,6 +88,9 @@ select_song = function(_idx){
 	song = track_list[track_index];
 	playback = audio_play_sound(song.asset, 10, false, sqr(get_volume()));
 	ship = ships[assign_ship_index(song.hash)];
+	
+	if (watch_track)
+		view_init = clamp(track_index - (view_max / 2), 0, max(0, array_length(track_list) - view_max));
 }
 
 clear_song = function(){
@@ -138,12 +145,30 @@ pause = function(_val = !is_paused){
 		audio_resume_sound(playback);
 }
 
+run_list_move = function(){
+	var _hovering = point_in_rectangle(mouse_x, mouse_y, room_width - 256, 36, room_width, room_height - 32);
+	if (!_hovering) return;
+	
+	var _mouse = mouse_wheel_down() - mouse_wheel_up();
+	var _kb	   = keyboard_check(vk_down) - keyboard_check(vk_up);
+	if (_kb != 0 && keyboard_check(vk_shift)){
+		view_init = (_kb == 1 ? array_length(track_list) - view_max : 0);
+		return;
+	}
+
+	var _dir = (_mouse != 0 ? _mouse : _kb);
+	if (_dir == 0) return;
+	
+	view_init = clamp(view_init + _dir, 0, max(0, array_length(track_list) - view_max));
+}
+
 render_track_list = function(){
 	draw_set_font(fnt_main);
 	draw_set_valign(fa_top);
 	
-	for (var _i = 0; _i < array_length(track_list); _i++){
-		var _yy = 40 + (12 * _i);
+	var _n = 0;
+	for (var _i = view_init; _i < array_length(track_list); _i++){
+		var _yy = 40 + (12 * _n);
 		var _track = track_list[_i];
 		
 		var _current = (_i == track_index ? ">> " : "");
@@ -152,6 +177,10 @@ render_track_list = function(){
 		var _duration = secs_to_string(_track.duration);
 		
 		draw_set_halign(fa_right);
-		draw_text(room_width - 4, _yy, $"{_current} {_pos} · {_title} · {_duration}");
+		draw_text(room_width - 4, _yy, $"{_current}{_pos} · {_title} · {_duration}");
+		
+		_n++;
+		if (_n >= view_max)
+			break;
 	}
 }
