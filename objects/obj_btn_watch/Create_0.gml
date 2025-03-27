@@ -9,4 +9,5 @@ is_highlighted = function(){
 
 on_action = function(){
 	controller.watch_track = !controller.watch_track;
+	controller.move_to_track();
 }

@@ -3,6 +3,9 @@ var _mouse_click = mouse_check_button_pressed(mb_left);
 var _playing = (!is_undefined(playback) && audio_exists(playback));
 
 run_list_move();
+run_list_selectable();
+
+time_after_click = max(0, time_after_click - time_delta());
 
 hovering_up_buttons = false;
 with (obj_button){

@@ -15,12 +15,16 @@ draw_text(4, 16, $"{get_weekday(current_weekday)} {current_day} · {get_month_na
 draw_set_halign(fa_right);
 draw_set_valign(fa_top);
 draw_set_color(c_white);
-draw_text(room_width - 4, 28, "TRACK LIST");
+
 if (!hovering_up_buttons){
 	draw_text(room_width - 4, 4, $"{array_length(original_list)} Tracks · {secs_to_string(total_duration)}");
 }
 
-render_track_list();
+if (show_list){
+	draw_text(room_width - 4, 28, "TRACK LIST");
+	render_track_list();
+}
+
 
 draw_set_halign(fa_center);
 draw_set_valign(fa_bottom);

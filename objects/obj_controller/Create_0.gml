@@ -18,6 +18,8 @@ total_duration = 0;
 view_init = 0;
 view_max = 24;
 watch_track = false;
+show_list = true;
+selected_index = -1;
 
 volume = 0.8;
 ship = -1;
@@ -27,6 +29,7 @@ song_pos = 0;
 internal_song_pos = 0;
 prev_internal_song_pos = 0;
 muted = false;
+time_after_click = 0;
 
 get_volume = function(){
 	return (muted ? 0 : volume);	
@@ -45,6 +48,7 @@ clear_list = function(){
 	track_list = [];
 	total_duration = 0;
 	view_init = 0;
+	selected_index = -1;
 }
 
 add_folder = function(_dir){
@@ -89,8 +93,13 @@ select_song = function(_idx){
 	playback = audio_play_sound(song.asset, 10, false, sqr(get_volume()));
 	ship = ships[assign_ship_index(song.hash)];
 	
-	if (watch_track)
-		view_init = clamp(track_index - (view_max / 2), 0, max(0, array_length(track_list) - view_max));
+	if (watch_track){
+		move_to_track();
+	}
+}
+
+move_to_track = function(){
+	view_init = clamp(track_index - (view_max / 2), 0, max(0, array_length(track_list) - view_max));	
 }
 
 clear_song = function(){
@@ -104,20 +113,25 @@ clear_song = function(){
 
 }
 
-update_tracklist = function(){
+update_tracklist = function(_no_shuffle = false){
 	track_list = [];
 	array_copy(track_list, 0, original_list, 0, array_length(original_list));
-	if (shuffling)
+	if (shuffling && !_no_shuffle)
 		array_shuffle_ext(track_list);
 		
+	calculate_total_duration();
+}
+
+calculate_total_duration = function(){
 	total_duration = array_reduce(original_list, function(_val, _track){
 		return _val + _track.duration;
-	}, 0);
+	}, 0);	
 }
 
 shuffle = function(_val = !shuffling){
 	shuffling = _val;
 	update_tracklist();
+	selected_index = -1;
 	
 	var _current_hash = song.hash;
 	var _idx = -1;
@@ -162,6 +176,68 @@ run_list_move = function(){
 	view_init = clamp(view_init + _dir, 0, max(0, array_length(track_list) - view_max));
 }
 
+delete_by_index = function(_idx){
+	if (_idx < 0) return;
+	if (_idx < 0 || _idx >= array_length(original_list)){
+		return;	
+	}
+	
+	var _moved_along = false;
+	if (track_index > _idx){
+		track_index -= 1;	
+		_moved_along = true;
+	}
+
+	__hash = track_list[_idx].hash;
+	var _find_on_original = array_find_index(original_list, function(_val){
+		return _val.hash == __hash;
+	});
+	
+	if (_find_on_original < 0) return;
+	
+	array_delete(original_list, _find_on_original, 1);
+	array_delete(track_list, _idx, 1);
+	
+	calculate_total_duration();
+	
+	if (track_index == _idx && !_moved_along){
+		if (track_index >= array_length(track_list)){
+			select_song(_idx - 1);	
+		}else{
+			select_song(_idx);	
+		}
+	}
+}
+
+run_list_selectable = function(){
+	if (!show_list) return;
+	if (keyboard_check_pressed(vk_escape)){
+		selected_index = -1;
+	}
+	
+	if (keyboard_check_pressed(vk_delete)){
+		delete_by_index(selected_index);
+	}
+	
+	var _hovering = point_in_rectangle(mouse_x, mouse_y, room_width - 144, 40, room_width, 340);
+	if (!_hovering) return;
+	
+	var _mouse = mouse_check_button_pressed(mb_left);
+	var _range = inverse_lerp(mouse_y, 40, 328);
+	if (_range < 0 || _range > 1) return;
+	
+	var _idx = floor(_range * view_max) + view_init;
+	if (_mouse && time_after_click > 0 && _idx == selected_index){
+		select_song(_idx);
+		time_after_click = 0;
+	}
+	
+	else if (_mouse && _idx < array_length(track_list) && _idx >= 0){
+		time_after_click = 0.3;
+		selected_index = _idx;
+	}
+}
+
 render_track_list = function(){
 	draw_set_font(fnt_main);
 	draw_set_valign(fa_top);
@@ -175,9 +251,10 @@ render_track_list = function(){
 		var _pos = string_lappend(string(_i + 1), "0", 3);
 		var _title = string_copy(_track.title, 1, min(16, string_length(_track.title))) + (string_length(_track.title) > 16 ? "..." : "");
 		var _duration = secs_to_string(_track.duration);
+		var _c = (selected_index == _i ? c_yellow : c_white);
 		
 		draw_set_halign(fa_right);
-		draw_text(room_width - 4, _yy, $"{_current}{_pos} · {_title} · {_duration}");
+		draw_text_color(room_width - 4, _yy, $"{_current}{_pos} · {_title} · {_duration}", _c, _c, _c, _c, 1);
 		
 		_n++;
 		if (_n >= view_max)

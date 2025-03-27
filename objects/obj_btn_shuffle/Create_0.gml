@@ -9,4 +9,5 @@ is_highlighted = function(){
 
 on_action = function(){
 	controller.shuffle();
+	
 }
