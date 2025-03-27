@@ -14,3 +14,6 @@ get_label_text = function(){
 get_image_index = function(){
 	return undefined;	
 }
+accelerator = function(){
+	return false;	
+}

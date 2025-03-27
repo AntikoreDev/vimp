@@ -3,7 +3,7 @@ var _is_clicking = mouse_check_button_pressed(mb_left);
 
 image_blend = (is_highlighted() ? c_white : c_gray);
 
-if (is_hovering && _is_clicking){
+if ((is_hovering && _is_clicking) || (accelerator())){
 	on_action();
 }
 

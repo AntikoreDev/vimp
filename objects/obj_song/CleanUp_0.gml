@@ -1,3 +1,3 @@
 if (audio_exists(asset)){
-	audio_destroy_stream(asset);
+	var _ = audio_destroy_stream(asset);
 }

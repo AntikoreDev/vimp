@@ -92,6 +92,7 @@ select_song = function(_idx){
 	song = track_list[track_index];
 	playback = audio_play_sound(song.asset, 10, false, sqr(get_volume()));
 	ship = ships[assign_ship_index(song.hash)];
+	is_paused = false;
 	
 	if (watch_track){
 		move_to_track();
@@ -100,6 +101,30 @@ select_song = function(_idx){
 
 move_to_track = function(){
 	view_init = clamp(track_index - (view_max / 2), 0, max(0, array_length(track_list) - view_max));	
+}
+
+move_track = function(_idx, _change, _watch = true){
+	__playing = (song.hash);
+	var _song = track_list[_idx];
+	
+	array_delete(track_list, _idx, 1);
+	array_insert(track_list, (_idx + _change), _song);
+
+	selected_index += _change;
+	
+	var _new_idx = array_find_index(track_list, function(_val){
+		return _val.hash == __playing;
+	});
+	
+	track_index = _new_idx;
+	song = track_list[_new_idx];
+	
+	if (!shuffling){
+		array_copy(original_list, 0, track_list, 0, array_length(track_list));
+	}
+
+	if (_watch)
+		move_to_track();
 }
 
 clear_song = function(){
@@ -160,15 +185,19 @@ pause = function(_val = !is_paused){
 }
 
 run_list_move = function(){
-	var _hovering = point_in_rectangle(mouse_x, mouse_y, room_width - 256, 36, room_width, room_height - 32);
+	if (array_length(track_list) <= 0) return;
+	
+	var _hovering = point_in_rectangle(mouse_x, mouse_y, room_width - 128, 36, room_width, room_height - 32);
 	if (!_hovering) return;
 	
 	var _mouse = mouse_wheel_down() - mouse_wheel_up();
 	var _kb	   = keyboard_check(vk_down) - keyboard_check(vk_up);
-	if (_kb != 0 && keyboard_check(vk_shift)){
-		view_init = (_kb == 1 ? array_length(track_list) - view_max : 0);
+	if (_kb != 0 && keyboard_check(vk_alt)){
+		view_init = (_kb == 1 ? max(0, array_length(track_list) - view_max) : 0);
 		return;
 	}
+	
+	if (keyboard_check(vk_control) || keyboard_check(vk_shift)) return;
 
 	var _dir = (_mouse != 0 ? _mouse : _kb);
 	if (_dir == 0) return;
@@ -211,12 +240,36 @@ delete_by_index = function(_idx){
 
 run_list_selectable = function(){
 	if (!show_list) return;
+	
+	if (keyboard_check(vk_control)){
+		var _vec = keyboard_check_pressed(vk_down) - keyboard_check_pressed(vk_up);	
+		var _after =  selected_index + _vec;
+		if (_vec != 0 && !(_after < 0 || _after >= array_length(track_list))){
+			move_track(selected_index, _vec, false);	
+			follow_selection();
+		}
+		return;
+	}
+	else if (keyboard_check(vk_shift)){
+		var _vec = keyboard_check_pressed(vk_down) - keyboard_check_pressed(vk_up);	
+		if (_vec != 0){
+			selected_index = clamp(selected_index + _vec, 0, array_length(track_list) - 1);
+			follow_selection();
+		}
+		return;
+	}
+	
 	if (keyboard_check_pressed(vk_escape)){
 		selected_index = -1;
 	}
 	
 	if (keyboard_check_pressed(vk_delete)){
 		delete_by_index(selected_index);
+	}
+	
+	if (keyboard_check_pressed(vk_enter)){
+		select_song(selected_index);
+		time_after_click = 0;
 	}
 	
 	var _hovering = point_in_rectangle(mouse_x, mouse_y, room_width - 144, 40, room_width, 340);
@@ -230,12 +283,21 @@ run_list_selectable = function(){
 	if (_mouse && time_after_click > 0 && _idx == selected_index){
 		select_song(_idx);
 		time_after_click = 0;
-	}
-	
-	else if (_mouse && _idx < array_length(track_list) && _idx >= 0){
+	} else if (_mouse && _idx < array_length(track_list) && _idx >= 0){
 		time_after_click = 0.3;
 		selected_index = _idx;
 	}
+}
+
+follow_selection = function(){
+	if (selected_index < view_init){
+		view_init = selected_index;
+		return;
+	}
+	show_debug_message($"{selected_index}, {view_init}, {view_max}")
+	if (selected_index >= (view_init + view_max)){
+		view_init = clamp((selected_index - view_max) + 1, 0, array_length(track_list) - view_max);
+	}	
 }
 
 render_track_list = function(){

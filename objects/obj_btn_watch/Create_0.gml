@@ -11,3 +11,7 @@ on_action = function(){
 	controller.watch_track = !controller.watch_track;
 	controller.move_to_track();
 }
+
+accelerator = function(){
+	return keyboard_check_pressed(ord("W"));
+}

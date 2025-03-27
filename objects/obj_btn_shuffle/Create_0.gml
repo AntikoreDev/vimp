@@ -8,6 +8,9 @@ is_highlighted = function(){
 }
 
 on_action = function(){
-	controller.shuffle();
-	
+	controller.shuffle();	
+}
+
+accelerator = function(){
+	return keyboard_check_pressed(ord("S"));
 }

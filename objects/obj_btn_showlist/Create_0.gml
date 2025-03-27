@@ -14,3 +14,7 @@ get_label_text = function(){
 is_highlighted = function(){
 	return controller.show_list;	
 }
+
+accelerator = function(){
+	return keyboard_check_pressed(ord("Q"));
+}
