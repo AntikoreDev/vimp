@@ -18,3 +18,7 @@ on_action = function(){
 		});
 	}
 }
+
+accelerator = function(){
+	return keyboard_check_pressed(ord("U"));	
+}

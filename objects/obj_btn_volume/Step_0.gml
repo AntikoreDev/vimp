@@ -27,3 +27,7 @@ if (is_hovering){
 	}
 	
 }
+
+accelerator = function(){
+	return keyboard_check_pressed(ord("M"));	
+}

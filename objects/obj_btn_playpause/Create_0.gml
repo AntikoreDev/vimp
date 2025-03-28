@@ -14,3 +14,7 @@ get_image_index = function(){
 on_action = function(){
 	controller.pause();
 }
+
+accelerator = function(){
+	return keyboard_check_pressed(ord("K"));	
+}

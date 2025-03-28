@@ -26,3 +26,7 @@ on_action = function(){
 	
 	controller.select_song(controller.track_index + 1);
 }
+
+accelerator = function(){
+	return keyboard_check_pressed(vk_right);	
+}

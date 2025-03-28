@@ -7,3 +7,7 @@ on_action = function(){
 	controller.clear_song();
 	controller.clear_list();
 }
+
+accelerator = function(){
+	return keyboard_check_pressed(ord("H"));	
+}

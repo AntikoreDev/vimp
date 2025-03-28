@@ -31,6 +31,14 @@ prev_internal_song_pos = 0;
 muted = false;
 time_after_click = 0;
 
+clear_temp = function(){
+	if (directory_exists("./temp")){
+		directory_destroy("./temp");	
+	}	
+}
+
+clear_temp();
+
 get_volume = function(){
 	return (muted ? 0 : volume);	
 }
@@ -52,14 +60,20 @@ clear_list = function(){
 }
 
 add_folder = function(_dir){
-	var _file = file_find_first(_dir + "/*.ogg", fa_archive);
+	add_folder_with_mask(_dir, "ogg");
+	add_folder_with_mask(_dir, "mp3");
+	add_folder_with_mask(_dir, "wav");
+}
+
+add_folder_with_mask = function(_dir, _mask){
+	var _file = file_find_first(_dir + $"/*.{_mask}", fa_archive);
 	while (string_trim(_file) != ""){
 		try {
 			add_song(_dir + "/" + _file);
 		} catch (_e) {}
 		_file = file_find_next();
 	}
-	file_find_close();
+	file_find_close();	
 }
 
 add_list = function(_path){
@@ -76,7 +90,9 @@ add_list = function(_path){
 add_song = function(_path){
 	var _prev_no_tracks = array_length(original_list) <= 0;
 	var _inst = instance_create_layer(0, 0, layer, obj_song);
-	_inst.set_song(_path);
+	var _res = _inst.set_song(_path);
+	if (_res < 0) return;
+	
 	array_push(original_list, _inst);
 	update_tracklist();
 	

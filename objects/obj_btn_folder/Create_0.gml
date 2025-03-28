@@ -11,3 +11,7 @@ on_action = function(){
 		controller.add_folder(filename_dir(_path));
 	}
 }
+
+accelerator = function(){
+	return keyboard_check_pressed(ord("O"));	
+}

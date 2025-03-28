@@ -3,12 +3,12 @@ function secs_to_string(_secs){
 	var _m = 0;
 	var _s = floor(_secs);
 	
-	while (_s > 3600){
+	while (_s >= 3600){
 		_h++;
 		_s -= 3600;
 	}
 
-	while (_s > 60){
+	while (_s >= 60){
 		_m++;
 		_s -= 60;
 	}
