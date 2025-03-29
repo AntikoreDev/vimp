@@ -7,6 +7,21 @@ ships = [
 	spr_skin28, spr_skin29, spr_skin30, spr_skin31, spr_skin32
 ];
 
+fx_layers = [ layer_get_id("Fore"), layer_get_id("Noise"), layer_get_id("Desat"), layer_get_id("Vignette"), layer_get_id("Glowing") ];
+prev_has_focus = false;
+
+fx_fix = function(){
+	if (prev_has_focus != window_has_focus()){
+		array_foreach(fx_layers, function(_l){
+			layer_set_visible(_l, window_has_focus());
+		});
+		
+		game_set_speed((window_has_focus() ? 60 : 20), gamespeed_fps)
+	}
+	
+	prev_has_focus = window_has_focus();	
+}
+
 is_openable_file = function(_param){
 	__param = _param;
 	var _exts = [ "mp3", "ogg", "wav", "vipl" ];

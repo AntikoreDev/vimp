@@ -1,3 +1,5 @@
+if (!window_has_focus()) exit;
+
 draw_set_font(fnt_main);
 draw_set_color(c_white);
 draw_set_halign(fa_left);

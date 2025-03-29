@@ -2,6 +2,7 @@ var _mouse_hover_bar = point_in_rectangle(mouse_x, mouse_y, 8, room_height - 10,
 var _mouse_click = mouse_check_button_pressed(mb_left);
 var _playing = (!is_undefined(playback) && audio_exists(playback));
 
+fx_fix();
 run_list_move();
 run_list_selectable();
 

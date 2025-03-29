@@ -1,3 +1,5 @@
+if (!window_has_focus()) exit;
+
 draw_self();
 
 if (is_hovering){
