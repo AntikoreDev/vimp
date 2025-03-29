@@ -31,5 +31,8 @@ int convert_to_ogg(const char *in, const char *out)
 }
 ```
 
+## Legal Advice
+Both repo and compiled binary includes an ffmpeg compiled binary from gyan.dev, if you're concerned about third-party intellectual property... I would be concerned on what are your priorities. Are you Nintendo?
+
 ## Download
 Go to Releases Tab and download the latest compiled binary or build it yourself (using [GameMaker](https://store.steampowered.com/app/1670460/GameMaker/))
