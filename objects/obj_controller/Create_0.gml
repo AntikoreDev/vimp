@@ -7,6 +7,26 @@ ships = [
 	spr_skin28, spr_skin29, spr_skin30, spr_skin31, spr_skin32
 ];
 
+is_openable_file = function(_param){
+	__param = _param;
+	var _exts = [ "mp3", "ogg", "wav", "vipl" ];
+	return array_any(_exts, function(_ext){
+		return string_ends_with(__param, $".{_ext}");
+	});
+}
+
+parameters = [];
+openable = [];
+for (var _i = 0; _i < parameter_count(); _i++){
+	var _param = parameter_string(_i);
+	array_push(parameters, _param);	
+	
+	if (is_openable_file(_param)){
+		array_push(openable, _param);
+	}
+}
+
+
 track_index = 0;
 shuffling = false;
 is_paused = false;
@@ -245,6 +265,11 @@ delete_by_index = function(_idx){
 	
 	calculate_total_duration();
 	
+	if (array_length(track_list) <= 0) {
+		clear_list(); 
+		return; 
+	}
+	
 	if (track_index == _idx && !_moved_along){
 		if (track_index >= array_length(track_list)){
 			select_song(_idx - 1);	
@@ -339,3 +364,5 @@ render_track_list = function(){
 			break;
 	}
 }
+
+alarm[0] = 3;

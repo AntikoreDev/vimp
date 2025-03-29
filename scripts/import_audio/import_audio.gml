@@ -12,11 +12,8 @@ function import_audio(_path){
 			file_delete(_target);	
 		}
 		
-		// execute_shell_simple(program_directory + "ffmpeg.exe", $"-i \"{_path}\" {_target} -y")
 		var _n = convert_to_ogg(_path, _target);
-		show_debug_message(_n);
 		return audio_create_stream(_target);
-	
 	}
 	
 	return audio_create_stream(_path);
