@@ -16,5 +16,5 @@ on_action = function(){
 }
 
 accelerator = function(){
-	return keyboard_check_pressed(ord("K"));	
+	return keyboard_check_pressed(ord("K")) || keyboard_check_pressed(vk_space);	
 }

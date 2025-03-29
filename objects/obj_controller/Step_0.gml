@@ -16,9 +16,16 @@ with (obj_button){
 	}
 }
 
+if (_playing){
+	var _vec = (keyboard_check_pressed(ord("X")) - keyboard_check_pressed(ord("Z")));
+	if (_vec != 0){
+		audio_sound_set_track_position(playback, clamp(audio_sound_get_track_position(playback) + (_vec * 5), 0, audio_sound_length(playback) - 0.01));	
+	}
+}
+
 if (_mouse_hover_bar && _mouse_click && _playing){
 	var _xx = inverse_lerp(mouse_x, 8, room_width - 8);
-	show_debug_message(_xx);
+	// show_debug_message(_xx);
 	var _pos = _xx * audio_sound_length(playback); 
 	audio_sound_set_track_position(playback, _pos);
 	song_pos = _pos;

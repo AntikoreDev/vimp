@@ -137,6 +137,8 @@ add_song = function(_path){
 }
 
 select_song = function(_idx){
+	if (_idx < 0 || _idx >= array_length(track_list)) return;
+	
 	clear_song();
 	
 	track_index = _idx;
@@ -205,6 +207,8 @@ calculate_total_duration = function(){
 }
 
 shuffle = function(_val = !shuffling){
+	if (array_length(original_list) <= 0) return;
+	
 	shuffling = _val;
 	update_tracklist();
 	selected_index = -1;
@@ -350,7 +354,7 @@ follow_selection = function(){
 		view_init = selected_index;
 		return;
 	}
-	show_debug_message($"{selected_index}, {view_init}, {view_max}")
+	// show_debug_message($"{selected_index}, {view_init}, {view_max}")
 	if (selected_index >= (view_init + view_max)){
 		view_init = clamp((selected_index - view_max) + 1, 0, array_length(track_list) - view_max);
 	}	
@@ -361,7 +365,8 @@ render_track_list = function(){
 	draw_set_valign(fa_top);
 	
 	var _n = 0;
-	for (var _i = view_init; _i < array_length(track_list); _i++){
+	// show_debug_message($"{view_init}, {array_length(track_list)}")
+	for (var _i = max(0, view_init); _i < array_length(track_list); _i++){
 		var _yy = 40 + (12 * _n);
 		var _track = track_list[_i];
 		
