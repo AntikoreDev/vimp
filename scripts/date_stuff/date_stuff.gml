@@ -1,6 +1,6 @@
 function get_weekday(_idx){
-	var _list = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
-	return _list[_idx - 1];
+	var _list = [ "SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+	return _list[_idx];
 }
 
 function get_month_name(_idx){
