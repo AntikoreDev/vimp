@@ -9,5 +9,5 @@ on_action = function(){
 }
 
 accelerator = function(){
-	return keyboard_check_pressed(ord("H"));	
+	return keyboard_check_pressed(ord("C"));	
 }
