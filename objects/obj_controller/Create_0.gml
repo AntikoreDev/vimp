@@ -242,7 +242,8 @@ pause = function(_val = !is_paused){
 run_list_move = function(){
 	if (array_length(track_list) <= 0) return;
 	
-	var _hovering = point_in_rectangle(mouse_x, mouse_y, room_width - 144, 36, room_width, room_height - 32);
+	var _hovering = true;
+	// var _hovering = point_in_rectangle(mouse_x, mouse_y, room_width - 144, 36, room_width, room_height - 32);
 	if (!_hovering) return;
 	
 	var _mouse = mouse_wheel_down() - mouse_wheel_up();
@@ -300,6 +301,10 @@ delete_by_index = function(_idx){
 
 run_list_selectable = function(){
 	if (!show_list) return;
+	if (keyboard_check_pressed(ord("A")) && (track_index >= 0 && track_index < array_length(track_list))){
+		selected_index = track_index;
+		move_to_track();
+	}
 	
 	if (keyboard_check(vk_control)){
 		var _vec = keyboard_check_pressed(vk_down) - keyboard_check_pressed(vk_up);	
