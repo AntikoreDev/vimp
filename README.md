@@ -1,3 +1,6 @@
+> [!WARNING]
+> This was an **April Fools** for 2025, this software is no meant to be used for real purposes, still works though. If you want to convert this into a real thing for some reason, feel free to do so! You can use the ship sprites from Colorfire Redux for that if you want, freely.
+
 # Visually Impressive Music Player
 **Visually Impressive Music Player _(VIMP)_** is an experimental music/audio player based on the [Colorfire Redux](https://www.youtube.com/watch?v=DisYiUAFFH4&list=PLpLYs_zE3vbCNgZChhB8-LmvLqdUIefU-) music videos. Supports `.ogg` files, as well as `.mp3` and `.wav` weirdly.
 
